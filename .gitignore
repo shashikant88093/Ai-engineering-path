@@ -1,0 +1,3 @@
+# Ignore .env files at any nested level
+.env
+**/.env
