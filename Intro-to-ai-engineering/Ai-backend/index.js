@@ -5,35 +5,39 @@ import OpenAI from "openai";
 checkEnvironment()
 
 
-async function start(){
-console.log(process.env,".env file")
 const openai = new OpenAI({
     apiKey: process.env.AI_KEY,
     baseURL: process.env.AI_URL,
-    // dangerouslyAllowBrowser: true
+    dangerouslyAllowBrowser: true
 })
 
 const inputText = document.getElementById("inputText")
 const viewData = document.getElementById("viewData")
 const apiCall = document.getElementById("apiCall")
 
-const propmt = inputText.trim()
-
-try {
+apiCall.addEventListener("click",async()=>{
+    console.log(inputText.value.trim())
+    const prompt = inputText.value.trim()
+    if(!prompt) return
+    try {
     const response = await openai.chat.completions.create({
         model: process.env.AI_MODEL,
         "messages": [
             {
                 'role': "user",
-                content: propmt
+                content: inputText.value.trim()
             }
         ],
-        max_completion_tokens:256
+        // max_completion_tokens:256
     })
 
     console.log(response, "response")                                                                                                                                                                                   
 } catch (err) {
     console.log(err, "error")
 }
+})
 
-}
+
+
+
+
