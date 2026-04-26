@@ -9,7 +9,7 @@ export function checkEnvironment (){
         throw new Error("Missing AI_KEY. Your API key is not being picked up.");
     }
 
-    console.log("AI provider URL:", process.env.AI_URL)
-    console.log("AI model:", process.env.AI_MODEL)
+    // console.log("AI provider URL:", process.env.AI_URL)
+    // console.log("AI model:", process.env.AI_MODEL)
 
 }
