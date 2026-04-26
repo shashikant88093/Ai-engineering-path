@@ -62,3 +62,56 @@ for await (const chunk of response) {
 }
 ```
 - In this example, we are concatenating the content from each chunk to build the full response. We also check for a `finish_reason` to determine when the response is complete. This allows us to display the response to the user as it is being generated, providing a more interactive experience.
+
+
+### Shot  and type of response ?
+- The type of response you receive from the OpenAI API can vary based on the parameters you set in your request. For example, if you set `stream: true`, you will receive a stream of data that can be processed in real-time. If you do not set `stream: true`, you will receive a single response once the AI has finished generating it.
+- The content of the response will depend on the prompt you provide and the model you are using. For example, if you ask a question, you will receive an answer. If you ask for a story, you will receive a story. The response can be in plain text, or it can include formatting such as markdown or HTML, depending on how you choose to handle the output.
+- You can also specify the type of response you want by using the `response_format` parameter in your API request. For example, you can request a response in JSON format, which can be
+- easier to parse and work with in your application. Here's an example of how to specify the response format:
+
+```javascript
+const response = await openai.chat.completions.create({
+  model: "gpt-3.5-turbo",
+  messages: [
+    { role: "system", content: "You are a helpful assistant." },
+    { role: "user", content: "Can you tell me a joke?" }        
+    ],
+    response_format: "json"
+});
+```
+- In this example, we are requesting the response in JSON format, which will allow us to easily access the different parts of the response, such as the generated text, any metadata, and so on. The type of response you receive will depend on the parameters you set in your API request, so you can customize it to fit the needs of your application.
+
+- Shot of response is the length of the response you want to receive. You can control this by setting the `max_tokens` parameter in your API request. This parameter specifies the maximum number of tokens (words or pieces of words) that the AI will generate in its response. For example:
+
+```javascript
+const response = await openai.chat.completions.create({
+  model: "gpt-3.5-turbo",
+  messages: [
+    { role: "system", content: "You are a helpful assistant." },
+    { role: "user", content: "Can you tell me a joke?" }
+    ],
+    max_tokens: 50
+});
+```
+- In this example, we are setting `max_tokens` to 50, which means the AI will generate a response that is no longer than 50 tokens. This allows you to control the length of the response and ensure that it fits within the constraints of your application. You can adjust the `max_tokens` parameter based on your needs, whether you want a short response or a longer, more detailed answer.
+
+
+
+### What is temperature in openai api ?
+- The `temperature` parameter in the OpenAI API controls the randomness of the generated response. A higher temperature value (e.g., 0.8) will result in more creative and diverse responses, while a lower temperature value (e.g., 0.2) will produce more focused and deterministic responses. The default temperature is typically set to 1.0, which provides a balance between creativity and coherence. You can adjust the temperature based on your specific use case and the type of response you want to receive. For example, if you want a more creative response, you can set a higher temperature, while if you want a more straightforward and factual response, you can set a lower temperature. Here's an example of how to set the temperature in your API request:
+- ```javascript
+const response = await openai.chat.completions.create({
+    model: "gpt-3.5-turbo",
+    messages: [
+        { role: "user", content: "Can you tell me a joke?" }
+    ],
+    temperature: 0.7
+});
+```
+- In this example, we are setting the temperature to 0.7, which will allow for a moderately creative response. You can experiment with different temperature values to find the right balance for your application and the type of responses you want to generate.
+
+- All temperature values are between 0 and 1, where:
+  - 0.0: The model will always choose the most likely next token, resulting in very deterministic responses.
+  - 0.5: The model will have a moderate level of randomness, allowing for some creativity while still maintaining coherence.
+  - 1.0: The model will have maximum randomness, which can lead to more creative and diverse responses but may also produce less coherent results.
